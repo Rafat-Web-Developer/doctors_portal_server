@@ -68,6 +68,13 @@ async function run() {
       res.send(services);
     });
 
+    app.get("/bookings", async (req, res) => {
+      const patient_email = req.query.patientEmail;
+      const query = { patientEmail: patient_email };
+      const bookings = await bookingsCollection.find(query).toArray();
+      return res.send(bookings);
+    });
+
     app.post("/booking", async (req, res) => {
       const booking = req.body;
       const query = {
