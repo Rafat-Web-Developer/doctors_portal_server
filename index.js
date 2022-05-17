@@ -28,8 +28,24 @@ async function run() {
     const bookingsCollection = client
       .db("doctors-portal")
       .collection("bookings");
+    const usersCollection = client
+      .db("doctors-portal")
+      .collection("users");
 
     // ----->All API Start<-----
+    app.put('/user/:email', async (req, res) => {
+      const email = req.params.email;
+      const user = req.body;
+      const filter = { email: email };
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: user,
+      };
+      const result = await usersCollection.updateOne(filter, updateDoc, options);
+      res.send(result);
+    });
+
+
     app.get("/services", async (req, res) => {
       const query = {};
       const cursor = servicesCollection.find(query);
