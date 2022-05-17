@@ -68,6 +68,11 @@ async function run() {
       res.send({ result, token });
     });
 
+    app.get("/users", async (req, res) => {
+      const users = await usersCollection.find().toArray();
+      res.send(users);
+    });
+
     app.get("/services", async (req, res) => {
       const query = {};
       const cursor = servicesCollection.find(query);
