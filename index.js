@@ -45,6 +45,7 @@ async function run() {
       .db("doctors-portal")
       .collection("bookings");
     const usersCollection = client.db("doctors-portal").collection("users");
+    const doctorsCollection = client.db("doctors-portal").collection("doctors");
 
     const verifyAdmin = async (req, res, next) => {
       const requester = req.decoded.email;
@@ -176,6 +177,13 @@ async function run() {
       const result = await bookingsCollection.insertOne(booking);
       res.send({ success: true, result });
     });
+
+    app.post("/doctor", verifyJWT, verifyAdmin, async (req, res) => {
+      const doctor = req.body;
+      const result = await doctorsCollection.insertOne(doctor);
+      res.send(result);
+    });
+
     // ----->All API End<-----
   } finally {
   }
